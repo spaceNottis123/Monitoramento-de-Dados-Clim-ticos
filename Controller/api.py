@@ -1,3 +1,4 @@
+from flask import Flask, jsonify
 from models.weather import WeatherData
 from utils.openweathermap_api import fetch_weather_data
 
@@ -18,4 +19,5 @@ def get_weather(city):
 
     }
 
-    return json_response
+    return jsonify(json_response)
+
