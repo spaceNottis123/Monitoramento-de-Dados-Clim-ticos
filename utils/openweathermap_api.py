@@ -20,8 +20,8 @@ def geolocation(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
     return weather_info
 
 
-def fetch_weather_data(api_key="904539b607db7cdc6ba7072dbd5209fb"):
-    geolocation_data = geolocation(city="Sao Paulo")
+def fetch_weather_data(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
+    geolocation_data = geolocation(city)
 
     lat = geolocation_data["lat"]
     lon = geolocation_data["lon"]

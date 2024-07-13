@@ -1,11 +1,3 @@
-"""
-#city
-#description
-#tempeture and min - max
-#feels like
-"""
-
-
 class WeatherData:
     def __init__(self, city, temperature, temperature_min, temperature_max, feels_like, description):
         self.city = city
