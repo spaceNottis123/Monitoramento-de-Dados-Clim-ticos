@@ -1,9 +1,13 @@
+from flask import Flask
+
 from Controller.api import get_weather
 
+app = Flask(__name__)
 
-def main():
-    print(get_weather("Sao Paulo"))
+@app.route("/api/weather/<city>")
+def get_current_weather(city):
+    return get_weather(city)
 
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)

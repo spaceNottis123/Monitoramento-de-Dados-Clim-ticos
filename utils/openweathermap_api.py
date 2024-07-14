@@ -15,7 +15,8 @@ def geolocation(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
 
     weather_info = {
         "lat": data[0]["lat"],
-        "lon": data[0]["lon"]
+        "lon": data[0]["lon"],
+        "country": data[0]["country"]
     }
     return weather_info
 
@@ -30,4 +31,4 @@ def fetch_weather_data(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
     payload = {}
     headers = {}
     response = requests.get(url, headers=headers, data=payload)
-    return response.json()
+    return print(response.json())
