@@ -31,4 +31,4 @@ def fetch_weather_data(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
     payload = {}
     headers = {}
     response = requests.get(url, headers=headers, data=payload)
-    return print(response.json())
+    return response.json()

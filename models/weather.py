@@ -1,5 +1,5 @@
 class WeatherData:
-    def __init__(self, city, temperature, temperature_min, temperature_max, feels_like, description, state):
+    def __init__(self, city, temperature, temperature_min, temperature_max, feels_like, description, country):
         self.city = city
         self.temp = temperature
         self.temp_min = temperature_min
