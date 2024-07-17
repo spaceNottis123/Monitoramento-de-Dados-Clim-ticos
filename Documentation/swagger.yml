@@ -1,0 +1,47 @@
+swagger: '2.0'
+info:
+  title: Weather API
+  description: API for fetching weather data
+  version: "1.0.0"
+basePath: /api
+schemes:
+  - http
+paths:
+  /weather/{city}:
+    get:
+      summary: Get current weather for a specific city
+      parameters:
+        - name: city
+          in: path
+          required: true
+          type: string
+          description: The city to get weather for
+      responses:
+        200:
+          description: A JSON object with weather information
+          schema:
+            type: object
+            properties:
+              city:
+                type: string
+                example: "London"
+              description:
+                type: string
+                example: "light rain"
+              temperature:
+                type: number
+                example: 285.32
+              temperature max:
+                type: number
+                example: 286.32
+              temperature min:
+                type: number
+                example: 284.32
+              feels_like:
+                type: number
+                example: 283.32
+              country:
+                type: string
+                example: "GB"
+        404:
+          description: City not found

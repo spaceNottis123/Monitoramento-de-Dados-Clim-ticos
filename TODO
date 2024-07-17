@@ -1,4 +1,0 @@
-- Create the a .env file for the APIs Keys
-- Implement error handling for different types of errors (e.g., invalid city name, API request failures).
-- Add functionality to handle different HTTP request methods (e.g., POST for more complex data submission).
-- Consider adding documentation for your API endpoints using tools like Swagger.

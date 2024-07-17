@@ -1,9 +1,12 @@
 import json
+import os
+
 import requests
+from dotenv import load_dotenv
 
-
-# Get the geolocation -- asks the city -- retrive lat, lon
-def geolocation(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
+load_dotenv()
+api_key = os.getenv('API_KEY')
+def geolocation(city):
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={api_key}"
 
     payload = {}
@@ -21,7 +24,7 @@ def geolocation(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
     return weather_info
 
 
-def fetch_weather_data(city, api_key="904539b607db7cdc6ba7072dbd5209fb"):
+def fetch_weather_data(city):
     geolocation_data = geolocation(city)
 
     lat = geolocation_data["lat"]

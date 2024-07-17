@@ -1,41 +1,27 @@
 from flask import Flask, jsonify
-import logging
-from logging.handlers import RotatingFileHandler
+from models.logger import get_logger
 from Controller.api import get_weather
+from flasgger import Swagger
+
 
 app = Flask(__name__)
-
-print("Setting up logging...")
-
-if not app.debug:
-    handler = RotatingFileHandler('api.log', maxBytes=10000, backupCount=1)
-    handler.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    app.logger.addHandler(handler)
-
-    # Set the logger level to INFO
-    app.logger.setLevel(logging.INFO)
-    print("Logging set up completed")
+logger = get_logger(__name__)
+swagger = Swagger(app, template_file='Documentation/swagger.yml')
 
 
 @app.route("/api/weather/<city>")
 def get_current_weather(city):
-    app.logger.info(f"Successfully retrieved weather data for city: {city}")
-    try:
-        weather_data = get_weather(city)
-        app.logger.info(f"Successfully retrieved weather data for city: {city}")
-        return jsonify(weather_data)
-    except Exception as e:
-        app.logger.error(f"Error retrieving weather data for city: {city}. Error: {e}")
-        return jsonify({"error": "Unable to retrieve weather data"}), 500
+    logger.info(f"Successfully retrieved weather data for city: {city}")
+    weather_data = get_weather(city)
+    logger.info(f"Successfully retrieved weather data for city: {city}")
+    return jsonify(weather_data)
+
 
 if __name__ == '__main__':
-    app.logger.info("Starting API")
+    logger.info("Starting API")
     try:
-        app.run(debug=False)
+        app.run(host='0.0.0.0', port=5000)
     except Exception as e:
-        app.logger.error(f"Error starting the API: {e}")
+        logger.error(f"Error starting the API: {e}")
     finally:
-        app.logger.info("Stopping API")
-
+        logger.info("Stopping API")
