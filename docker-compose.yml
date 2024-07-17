@@ -1,0 +1,65 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - dashboard_net
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin_password  # Set Grafana admin password here
+    depends_on:
+      - opensearch
+
+  fluentd:
+    image: fluent/fluentd:latest
+    networks:
+      - dashboard_net
+    volumes:
+      - ./fluentd:/fluentd/etc
+    depends_on:
+      - opensearch
+
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - dashboard_net
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "cluster.name=docker-cluster"
+
+  api:
+    build:
+      context: ./DadosClimaticos
+    ports:
+      - "5000:5000"
+    networks:
+      - dashboard_net
+    depends_on:
+      - fluentd
+      - opensearch
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=main.py
+      - OPENWEATHERMAP_API_KEY=904539b607db7cdc6ba7072dbd5209fb
+    volumes:
+      - ./DadosClimaticos:/app
+      - ./fluentd:/fluentd
+      - ./grafana:/etc/grafana
+
+networks:
+  dashboard_net:
+    driver: bridge
+
+volumes:
+  grafana_data:
+  opensearch_data:
