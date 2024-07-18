@@ -35,6 +35,7 @@ def get_weather(city):
             "country": weather.country
         }
         logger.info(f"Successfully retrieved weather data for city: {city}")
+        logger.info(f"message: {json_response}")
         return json_response
     except Exception as e:
         logger.error(f"Exception occurred while fetching weather data for city: {city}, Error: {e}")
